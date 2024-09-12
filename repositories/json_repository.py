@@ -1,4 +1,6 @@
 import json
+
+from api.weather_api import get_city_position
 from models.aircraft import Aircraft
 from models.pilot import Pilot
 from models.target import Target
@@ -31,5 +33,6 @@ def convert_json_to_aircraft(json_obj):
 def convert_json_to_target(json_obj):
     return Target(
         city=json_obj["city"],
-        priority=json_obj["priority"]
+        priority=json_obj["priority"],
+        position=get_city_position(json_obj["city"])
     )

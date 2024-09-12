@@ -1,13 +1,14 @@
+import math
 import data.data_lists as data
 from toolz import partition, pipe, partial, curry
-from operator import itemgetter
 from functools import reduce
-
+from api.weather_api import get_city_weather
 from models.aircraft import Aircraft
-from models.enums.weather_conditions_enum import Weather_conditions_enum
 from models.mission import Mission
 from models.pilot import Pilot
+from models.position import Position
 from models.recommended_attack import Recommended_attack
+from models.target import Target
 from models.weight_option import Weight_option
 
 
@@ -30,16 +31,43 @@ def convert_recommended_to_mission(obj: Recommended_attack):
     )
 
 
+def get_pair_p_a_w(p: Pilot, a: Aircraft, t: Target):
+    weather_condition = get_city_weather(t.city)
+    return {"p": p, "a": a, "t": t, "w": get_weight_options(), "weather_condition": weather_condition}
+
+
 @curry
 def get_recommended_mission(pilots, aircrafts, target):
+    arr = list(map(lambda p: list(map(lambda a: get_pair_p_a_w(p, a, target), aircrafts)), pilots))
+    arr = reduce(lambda res, n: res + n, arr)
+    selected: dict = max(arr, key=lambda x: x["w"].get_sum())
     return Recommended_attack(
-        pilot=pilots[0],
-        aircraft=aircrafts[0],
-        target=target,
-        mission_fit_score=2,
-        distance_by_km=0,
-        weather_conditions=Weather_conditions_enum.CLEAR
+        pilot=selected["p"],
+        aircraft=selected["a"],
+        target=selected["t"],
+        mission_fit_score=selected["w"].get_sum(),
+        distance_by_km=int(haversine_distance(target.position, data.current_position)),
+        weather_conditions=selected["weather_condition"]
     )
+
+
+def haversine_distance(position1: Position, position2: Position):
+    r = 6371.0  # Radius of the Earth in kilometers
+    # Convert degrees to radians
+    lat1_rad = math.radians(position1.lat)
+    lon1_rad = math.radians(position1.lon)
+    lat2_rad = math.radians(position2.lat)
+    lon2_rad = math.radians(position2.lon)
+    # Calculate differences between the coordinates
+    dlat = lat2_rad - lat1_rad
+    dlon = lon2_rad - lon1_rad
+    # Apply Haversine formula
+    a = math.sin(dlat / 2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon /
+    2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    # Calculate the distance
+    distance = r * c
+    return distance
 
 
 def is_p_not_exist(rec:list[Recommended_attack], p: Pilot):

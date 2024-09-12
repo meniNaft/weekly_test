@@ -5,3 +5,6 @@ class Weight_option:
         self.pilot_skill: float = pilot_skill
         self.weather_condition: float = weather_condition
         self.execute_time: float = execute_time
+
+    def get_sum(self):
+        return self.distance + self.aircraft_type + self.pilot_skill + self.weather_condition + self.execute_time
