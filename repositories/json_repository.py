@@ -9,7 +9,8 @@ from models.target import Target
 def read_json(path):
     try:
         with open(path, 'r') as file:
-            return json.load(file)
+            res = json.load(file)
+            return res
     except Exception as e:
         print(e)
         return []

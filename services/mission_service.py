@@ -13,7 +13,7 @@ from models.weight_option import Weight_option
 
 
 def get_weight_options():
-    return Weight_option(0,0,0,0,0)
+    return Weight_option(0, 0, 0, 0, 0)
 
 
 def convert_recommended_to_mission(obj: Recommended_attack):
@@ -23,7 +23,7 @@ def convert_recommended_to_mission(obj: Recommended_attack):
         assigned_pilot=obj.pilot.name,
         assigned_aircraft=obj.aircraft.type,
         distance_by_km=obj.distance_by_km,
-        weather_conditions=obj.weather_conditions,
+        weather_conditions=obj.target.weather.weather,
         pilot_skill=obj.pilot.skills,
         aircraft_speed_by_mk=obj.aircraft.speed,
         fuel_capacity_by_km=obj.aircraft.fuel_capacity,
@@ -32,12 +32,12 @@ def convert_recommended_to_mission(obj: Recommended_attack):
 
 
 def get_pair_p_a_w(p: Pilot, a: Aircraft, t: Target):
-    weather_condition = get_city_weather(t.city)
-    return {"p": p, "a": a, "t": t, "w": get_weight_options(), "weather_condition": weather_condition}
+    return {"p": p, "a": a, "t": t, "w": get_weight_options()}
 
 
 @curry
 def get_recommended_mission(pilots, aircrafts, target):
+    target.weather = get_city_weather(target.city)
     arr = list(map(lambda p: list(map(lambda a: get_pair_p_a_w(p, a, target), aircrafts)), pilots))
     arr = reduce(lambda res, n: res + n, arr)
     selected: dict = max(arr, key=lambda x: x["w"].get_sum())
@@ -46,8 +46,7 @@ def get_recommended_mission(pilots, aircrafts, target):
         aircraft=selected["a"],
         target=selected["t"],
         mission_fit_score=selected["w"].get_sum(),
-        distance_by_km=int(haversine_distance(target.position, data.current_position)),
-        weather_conditions=selected["weather_condition"]
+        distance_by_km=int(haversine_distance(target.position, data.current_position))
     )
 
 
@@ -62,15 +61,14 @@ def haversine_distance(position1: Position, position2: Position):
     dlat = lat2_rad - lat1_rad
     dlon = lon2_rad - lon1_rad
     # Apply Haversine formula
-    a = math.sin(dlat / 2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon /
-    2)**2
+    a = math.sin(dlat / 2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2)**2
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     # Calculate the distance
     distance = r * c
     return distance
 
 
-def is_p_not_exist(rec:list[Recommended_attack], p: Pilot):
+def is_p_not_exist(rec: list[Recommended_attack], p: Pilot):
     return pipe(
          rec,
          partial(filter, lambda x: x.pilot.id == p.id),
@@ -79,7 +77,7 @@ def is_p_not_exist(rec:list[Recommended_attack], p: Pilot):
      )
 
 
-def is_a_not_exist(rec:list[Recommended_attack], a: Aircraft):
+def is_a_not_exist(rec: list[Recommended_attack], a: Aircraft):
     return pipe(
          rec,
          partial(filter, lambda x: x.aircraft.id == a.id),
@@ -89,6 +87,7 @@ def is_a_not_exist(rec:list[Recommended_attack], a: Aircraft):
 
 
 def get_sprint_list(target_sprint):
+    print("sprint_list")
     pilot_sprint = data.pilots.copy()
     aircraft_sprint = data.aircraft_list.copy()
     recommended_list = []
@@ -121,4 +120,3 @@ def get_mission_list():
         partial(reduce, lambda res, n: res + n)
     )
     return final_mission
-

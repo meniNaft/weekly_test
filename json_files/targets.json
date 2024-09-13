@@ -13,6 +13,5 @@
     { "city": "Sanaa", "priority": 2 },
     { "city": "Manama", "priority": 2 },
     { "city": "Kuwait City", "priority": 3 },
-    { "city": "Doha", "priority": 4 },
-    { "city": "sssDoha", "priority": 4 }
+    { "city": "Doha", "priority": 4 }
 ]
