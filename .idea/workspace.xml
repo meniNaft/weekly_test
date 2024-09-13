@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="416ce896-910e-46d5-bc44-d9e379f42601" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/models/weather.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/weather_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/weather_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/json_files/targets.json" beforeDir="false" afterPath="$PROJECT_DIR$/json_files/targets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/mission.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/mission.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/recommended_attack.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/recommended_attack.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/target.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/target.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repositories/json_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/repositories/json_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/mission_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/mission_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
