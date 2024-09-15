@@ -1,3 +1,4 @@
+from api.weather_api import get_city_position
 from models.aircraft import Aircraft
 from models.mission import Mission
 from models.pilot import Pilot
@@ -8,5 +9,4 @@ pilots: list[Pilot] = []
 aircraft_list: list[Aircraft] = []
 targets: list[Target] = []
 missions: list[Mission] = []
-
-current_position: Position = Position(32.0, 23.444)
+current_position: Position = get_city_position("jerusalem")

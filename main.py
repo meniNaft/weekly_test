@@ -1,6 +1,6 @@
+import math
 from os.path import isfile
 from toolz import pipe, partial
-
 from repositories.csv_repository import write_missions_to_csv
 from repositories.json_repository import read_json, convert_json_to_pilot, convert_json_to_aircraft,convert_json_to_target
 import data.data_lists as data
@@ -52,7 +52,6 @@ def load_files():
 
 
 if __name__ == '__main__':
-
     print("Welcome!")
     while True:
         print("action list:")

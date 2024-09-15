@@ -2,6 +2,8 @@ import math
 import data.data_lists as data
 from toolz import partition, pipe, partial, curry
 from functools import reduce
+from operator import itemgetter
+from itertools import islice
 from api.weather_api import get_city_weather
 from models.aircraft import Aircraft
 from models.mission import Mission
@@ -22,7 +24,7 @@ def convert_recommended_to_mission(obj: Recommended_attack):
         priority=obj.target.priority,
         assigned_pilot=obj.pilot.name,
         assigned_aircraft=obj.aircraft.type,
-        distance_by_km=obj.distance_by_km,
+        distance_by_km=obj.target.distance_from_israel,
         weather_conditions=obj.target.weather.weather,
         pilot_skill=obj.pilot.skills,
         aircraft_speed_by_mk=obj.aircraft.speed,
@@ -45,27 +47,9 @@ def get_recommended_mission(pilots, aircrafts, target):
         pilot=selected["p"],
         aircraft=selected["a"],
         target=selected["t"],
-        mission_fit_score=selected["w"].get_sum(),
-        distance_by_km=int(haversine_distance(target.position, data.current_position))
+        mission_fit_score=selected["w"].get_sum()
     )
 
-
-def haversine_distance(position1: Position, position2: Position):
-    r = 6371.0  # Radius of the Earth in kilometers
-    # Convert degrees to radians
-    lat1_rad = math.radians(position1.lat)
-    lon1_rad = math.radians(position1.lon)
-    lat2_rad = math.radians(position2.lat)
-    lon2_rad = math.radians(position2.lon)
-    # Calculate differences between the coordinates
-    dlat = lat2_rad - lat1_rad
-    dlon = lon2_rad - lon1_rad
-    # Apply Haversine formula
-    a = math.sin(dlat / 2)**2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2)**2
-    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-    # Calculate the distance
-    distance = r * c
-    return distance
 
 
 def is_p_not_exist(rec: list[Recommended_attack], p: Pilot):
@@ -104,14 +88,12 @@ def get_sprint_list(target_sprint):
 
 
 def get_mission_list():
-    targets_group = pipe(
-        data.targets,
-        partial(sorted, key=lambda x: x.priority),
-        partial(partition, len(data.pilots), pad=None),
-        partial(map, lambda sub: filter(lambda v: v is not None, sub)),
-        partial(map, lambda li: list(li)),
-        list
-    )
+    targets_group = []
+    targets = sorted(data.targets, key=lambda x: x.priority, reverse=True).copy()
+    data.aircraft_list = sorted(data.aircraft_list, key=lambda a: a.fuel_capacity)
+    while len(targets) > 0:
+        targets_group.append(get_target_group(data.pilots, data.aircraft_list, targets))
+        targets = list(filter(lambda x: x not in list(reduce(lambda res, n: res + n, targets_group)), targets))
 
     final_mission = pipe(
         targets_group,
@@ -120,3 +102,16 @@ def get_mission_list():
         partial(reduce, lambda res, n: res + n)
     )
     return final_mission
+
+
+def get_target_group(pilots: list, aircrafts: list[Aircraft], targets: list[Target]):
+    min_count = min(len(pilots), len(aircrafts), len(targets))
+    arr = []
+    for i in range(min_count):
+        filtered_aircraft = list(filter(lambda ai: ai not in list(map(lambda val: val["a"], arr)), aircrafts))
+        for a in filtered_aircraft:
+            if a.fuel_capacity >= targets[i].distance_from_israel:
+                arr.append({"t": targets[i], "a": a})
+                break
+
+    return list(map(lambda val: val["t"], arr))

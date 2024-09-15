@@ -3,6 +3,7 @@ from requests import get
 from toolz import first, pipe, partial, get_in
 from datetime import datetime, time, timedelta
 from models.weather import Weather
+from data import data_lists as data
 
 API_KEY = "&appid=c9052c21bbb2a3cd5e928505f16f07cf"
 BASE_URL = "https://api.openweathermap.org/"
@@ -17,7 +18,7 @@ def get_city_position(location_name: str):
         res = first(response.json())
         return Position(res["lat"], res["lon"])
     except:
-        return Position(0,0)
+        return Position(data.current_position.lat + 1, data.current_position.lon + 1)
 
 
 def get_city_weather(location_name: str):
@@ -38,4 +39,7 @@ def get_city_weather(location_name: str):
             wind=get_in(["wind", "speed"], tomorrow_mid_night)
         )
     except:
-        print()
+        return Weather(
+            weather="Clouds",
+            clouds=99,
+            wind=3.06)

@@ -6,6 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="416ce896-910e-46d5-bc44-d9e379f42601" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/weather_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/weather_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/data_lists.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_lists.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/recommended_attack.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/recommended_attack.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/target.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/target.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repositories/json_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/repositories/json_repository.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/mission_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/mission_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,25 +29,25 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2lxUMY5i2AJ4vEllpdWkwBr1WWi" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.json_repository.executor": "Debug",
-    "Python.main.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/משתמש/Desktop/idf_course/קורס אנוש/2 - python_1/weekly_test/models"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.json_repository.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.main.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/משתמש/Desktop/idf_course/קורס אנוש/2 - python_1/weekly_test/models&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\משתמש\Desktop\idf_course\קורס אנוש\2 - python_1\weekly_test\models" />
@@ -93,16 +100,5 @@
       <updated>1726121173470</updated>
     </task>
     <servers />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/services/mission_service.py</url>
-          <line>98</line>
-          <option name="timeStamp" value="45" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
